@@ -1,15 +1,13 @@
-﻿"""
-Point d'entree de l'application StageFlow.
-
-Ce fichier sera complete etape par etape avec :
-- les exception handlers (core/errors.py)
-- les middlewares (request_id, security_headers)
-- les routers (auth, users, offers, applications)
+"""
+Point d entree de l application StageFlow.
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 
+from app.api.routes import applications, auth, offers, users
 from app.core.config import get_settings
+from app.core.errors import AppError
 
 settings = get_settings()
 
@@ -20,6 +18,17 @@ app = FastAPI(
 )
 
 
+@app.exception_handler(AppError)
+def app_error_handler(request: Request, exc: AppError):
+    return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+
+
 @app.get("/health", tags=["health"])
 def health_check() -> dict:
     return {"status": "ok"}
+
+
+app.include_router(auth.router)
+app.include_router(users.router)
+app.include_router(offers.router)
+app.include_router(applications.router)

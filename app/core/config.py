@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "StageFlow"
     ENVIRONMENT: str = "development"
 
-    DATABASE_URL: str = "postgresql+psycopg2://stageflow:stageflow@localhost:5432/stageflow"
+    DATABASE_URL: str = "postgresql+psycopg://stageflow:stageflow@localhost:5433/stageflow"
 
     SECRET_KEY: str = "change-me-in-production-use-a-long-random-string"
     ALGORITHM: str = "HS256"

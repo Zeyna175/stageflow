@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: stageflow-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: stageflow
+      POSTGRES_PASSWORD: stageflow
+      POSTGRES_DB: stageflow
+    ports:
+      - "5433:5432"
+    volumes:
+      - stageflow_pgdata:/var/lib/postgresql/data
+
+volumes:
+  stageflow_pgdata:

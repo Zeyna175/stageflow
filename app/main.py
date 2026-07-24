@@ -8,6 +8,8 @@ from fastapi.responses import JSONResponse
 from app.api.routes import applications, auth, offers, users
 from app.core.config import get_settings
 from app.core.errors import AppError
+from app.middlewares.request_id import RequestIDMiddleware
+from app.middlewares.security_headers import SecurityHeadersMiddleware
 
 settings = get_settings()
 
@@ -16,6 +18,9 @@ app = FastAPI(
     description="API interne de gestion securisee des stages data.",
     version="0.1.0",
 )
+
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(RequestIDMiddleware)
 
 
 @app.exception_handler(AppError)
